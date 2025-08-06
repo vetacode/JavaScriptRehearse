@@ -1,3 +1,4 @@
+/*
 var age = '65';
 if (age >= 65) {
   console.log('You get your income from your pension.');
@@ -86,8 +87,50 @@ for (var i = 0; i < cubes.length; i++) {
     'font-size: 40px; border-radius: 10px; border: 1px solid blue; background: pink; color: purple';
   console.log('%c' + cubes[i], styles);
 }
+*/
 
+for (var i = 1; i <= 10; i++) {
+  if (i == 1) {
+    console.log('Gold medal.');
+  } else if (i == 2) {
+    console.log('Silver medal.');
+  } else if (i == 3) {
+    console.log('Bronze medal.');
+  } else {
+    console.log(i);
+  }
+}
 
-for (var i = 1; i++){
-  if ()
+// for (var i = 1; i <= 10; i++) {
+//   switch (i) {
+//     case 1:
+//       console.log('Gold medal');
+//   }
+//   switch (i) {
+//     case 2:
+//       console.log('Silver medal');
+//   }
+//   switch (i) {
+//     case 3:
+//       console.log('Bronze medal');
+//   }
+//   if (i > 3) {
+//     console.log(i);
+//   }
+// }
+
+for (var i = 1; i <= 10; i++) {
+  switch (i) {
+    case 1:
+      console.log('Gold medal');
+      break;
+    case 2:
+      console.log('Silver medal');
+      break;
+    case 3:
+      console.log('Bronze medal');
+      break;
+    default:
+      console.log(i);
+  }
 }
