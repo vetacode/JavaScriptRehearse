@@ -83,8 +83,9 @@ letterFinder('cat', 'c');
 var str = 'Hello';
 str.match('jello'); //null
 
-try {
-console.log('hello)
-} catch(e) {
-console.log('caught')
-}
+//Try catch cannot be used to catch syntax errors, only runtime errors.
+// try {
+// console.log('hello)
+// } catch(e) {
+// console.log('caught')
+// }
