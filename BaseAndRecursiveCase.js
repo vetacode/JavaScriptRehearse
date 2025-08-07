@@ -13,3 +13,13 @@ function fib(n) {
 
 console.log(fib(5)); // Output: 5
 console.log(fib(10)); // Output: 55
+
+//FACTORIAL RECURSION
+const factorial = (n) => {
+  if (n === 0) {
+    return 1;
+  }
+  return n * factorial(n - 1);
+};
+console.log(factorial(10));
+// 3628800
