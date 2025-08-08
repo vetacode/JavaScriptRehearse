@@ -18,8 +18,8 @@ const door = {
 
 console.log(door.bell()); // 'Ding Dong!'
 
-function ringBell(anything) {
-  console.log(anything.bell());
+function ringBell(butyrateType) {
+  console.log(butyrateType.bell());
 }
 
 ringBell(door);
@@ -53,14 +53,14 @@ kingPenguin.useWings(); // "Diving!"
 
 // create your classes here
 class FeedAdd {
-  gutEnhancer() {
-    console.log('Dry Feces, Great Performance');
+  gutEnhancer(butyrateType) {
+    console.log('Dry Feces, Great Performance because of:', butyrateType);
   }
 }
 
 class ButyricAcid extends FeedAdd {
-  gutEnhancer() {
-    super.gutEnhancer();
+  gutEnhancer(butyrateType) {
+    super.gutEnhancer(butyrateType);
     console.log('Regenerative Villi');
   }
 }
@@ -74,5 +74,5 @@ class Probiotics extends FeedAdd {
 const globamax = new ButyricAcid();
 const calsporin = new Probiotics();
 
-globamax.gutEnhancer();
+globamax.gutEnhancer('calciumButyrate');
 calsporin.gutEnhancer();
