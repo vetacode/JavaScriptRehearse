@@ -14,6 +14,7 @@ console.log(eagle.canSwim); // false
 
 Object.getPrototypeOf(eagle) === bird; // true
 console.log(Object.getPrototypeOf(eagle)); //{ hasFeathers: true, canFly: true, canSwim: false }
+console.log(this.eagle);
 
 let penguin = Object.create(bird);
 penguin.canFly = false;
