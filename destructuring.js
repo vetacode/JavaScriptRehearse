@@ -47,3 +47,18 @@ const {
 
 console.log(PI);
 console.log(Math.PI);
+
+const item = ['Laptop', 1000];
+const [name, price] = item; // Destructures the array into variables
+console.log(name); // Output: Laptop
+console.log(price); // Output: 1000
+
+const review = {
+  title: 'Great Service',
+  author: 'Jane Smith',
+};
+
+// const author = review.author;
+// const title = review.title;
+
+const { title, author } = review;
