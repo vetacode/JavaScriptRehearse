@@ -29,6 +29,16 @@ const fruits2 = [...fruits1];
 fruits1.pop();
 console.log(fruits1, 'not', fruits2);
 
+let obj = {
+  key: 1,
+  value: 4,
+};
+let output = { ...obj };
+output.value -= obj.key;
+
+console.log(output.value);
+console.log(obj.value); // 4, original object remains unchanged
+
 //easy to join arrays
 const fruits = ['apple', 'pear', 'plum'];
 const berries = ['blueberry', 'strawberry'];
