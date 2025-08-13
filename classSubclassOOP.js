@@ -64,6 +64,7 @@ class Parrot extends Bird {
 }
 */
 
+/*
 class Animal {
   constructor(color = 'yellow', energy = 100) {
     this.color = color;
@@ -201,3 +202,51 @@ leo.makeSound(false); // 'meow'
 let simba = new Tiger();
 simba.makeSound(true); // 'purr', 'Roar!'
 simba.makeSound(false); // 'Roar!'
+
+class Cake {
+  constructor(lyr) {
+    this.layers = lyr;
+  }
+
+  getLayers() {
+    return this.layers;
+  }
+}
+
+class WeddingCake extends Cake {
+  constructor() {
+    super(2);
+  }
+
+  getLayers() {
+    return super.getLayers() * 5;
+  }
+}
+
+var result = new WeddingCake();
+console.log(result.getLayers()); //10
+
+*/
+
+class Animal {}
+
+class Dog extends Animal {
+  constructor() {
+    super();
+    this.noise = 'bark';
+  }
+
+  makeNoise() {
+    return this.noise;
+  }
+}
+
+class Wolf extends Dog {
+  constructor() {
+    super();
+    this.noise = 'growl';
+  }
+}
+
+var result = new Wolf();
+console.log(result.makeNoise());
