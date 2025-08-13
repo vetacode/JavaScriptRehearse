@@ -27,7 +27,7 @@ console.log(car2.speed);
 const fruits1 = ['apples', 'pears'];
 const fruits2 = [...fruits1];
 fruits1.pop();
-console.log(fruits1, 'not', fruits2);
+console.log(fruits1, 'not', fruits2); //
 
 let obj = {
   key: 1,
@@ -66,6 +66,12 @@ function sum(...numbers) {
 
 console.log(sum(1, 2, 3)); // 6
 console.log(sum(1, 2, 3, 4, 5)); // 15
+
+function count(...food) {
+  console.log(food.length);
+}
+
+count('Burgers', 'Fries', null); //3
 
 /*Differences between spread and rest operators
 Spread Operator:

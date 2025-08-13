@@ -33,3 +33,12 @@ function calculate(initialValue, incrementValue) {
 
 console.log(calculate(two, one)); //4
 //That's correct!  The  two function is passed as the first parameter to the  calculate function and the  one function is passed as the second parameter. Therefore, when the  calculate function runs, it calls  two() + one() + one() . The result is then  4 .
+
+function scopeTest() {
+  var y = 44;
+
+  console.log(x);
+}
+
+var x = 33;
+scopeTest(); //33
