@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <title>JS Advance Quiz</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+      }
+      .question {
+        margin-bottom: 15px;
+      }
+      .answer {
+        margin-top: 5px;
+      }
+      .correct {
+        color: green;
+      }
+      .wrong {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>JavaScript Advance Quiz</h1>
+    <div id="quiz"></div>
+    <button onclick="checkAnswers()">Submit</button>
+    <div id="score"></div>
+
+    <script>
+      const quizData = [
+        {
+          question: `1. Apa output?
+console.log([] == ![]);`,
+          answer: 'true',
+          explanation:
+            '[] diubah ke boolean -> true, ![] -> false, [] == false -> true karena coercion.',
+        },
+        {
+          question: `2. Apa output?
+console.log(null + 1);`,
+          answer: '1',
+          explanation: 'null dikonversi ke 0 saat operasi matematika.',
+        },
+        {
+          question: `3. Apa output?
+console.log("5" - 3);`,
+          answer: '2',
+          explanation: 'String "5" dikonversi ke number otomatis.',
+        },
+        {
+          question: `4. Apa hasilnya?
+console.log("5" + 3);`,
+          answer: '53',
+          explanation: 'Operator + dengan string melakukan concatenation.',
+        },
+        {
+          question: `5. Apa output?
+console.log(true + true + "2");`,
+          answer: '22',
+          explanation: 'true -> 1, 1+1 = 2, lalu 2 + "2" -> "22"',
+        },
+        {
+          question: `6. Apa output?
+console.log(0 || "A" && "B");`,
+          answer: 'B',
+          explanation:
+            'Operator && lebih tinggi prioritas. "A" && "B" -> "B". 0 || "B" -> "B".',
+        },
+        {
+          question: `7. Apa output?
+console.log([] == 0 && [] == ![]);`,
+          answer: 'true',
+          explanation: 'Kedua perbandingan true karena type coercion.',
+        },
+        {
+          question: `8. Apa output?
+console.log(NaN === NaN);`,
+          answer: 'false',
+          explanation: 'NaN tidak sama dengan NaN menurut spec JS.',
+        },
+        {
+          question: `9. Apa output?
+console.log({} + []);`,
+          answer: '[object Object]',
+          explanation:
+            '{} dikonversi ke string -> "[object Object]", [] -> "", jadi hasil "[object Object]"',
+        },
+        {
+          question: `10. Apa output?
+console.log([] + {});`,
+          answer: '[object Object]',
+          explanation:
+            '[] -> "", {} -> "[object Object]" -> hasil sama "[object Object]"',
+        },
+        // Tambahkan soal lebih banyak sesuai kebutuhan expert level
+      ];
+
+      const quizContainer = document.getElementById('quiz');
+
+      quizData.forEach((q, i) => {
+        const div = document.createElement('div');
+        div.classList.add('question');
+        div.innerHTML = `
+    <div><b>${q.question}</b></div>
+    <input type="text" id="ans${i}" placeholder="Jawabanmu di sini">
+    <div class="answer" id="exp${i}"></div>
+  `;
+        quizContainer.appendChild(div);
+      });
+
+      function checkAnswers() {
+        let score = 0;
+        quizData.forEach((q, i) => {
+          const userAnswer = document.getElementById(`ans${i}`).value.trim();
+          const expDiv = document.getElementById(`exp${i}`);
+          if (userAnswer.toLowerCase() === q.answer.toLowerCase()) {
+            score++;
+            expDiv.innerHTML = `✅ Benar! Penjelasan: ${q.explanation}`;
+            expDiv.className = 'answer correct';
+          } else {
+            expDiv.innerHTML = `❌ Salah! Jawaban: ${q.answer}. Penjelasan: ${q.explanation}`;
+            expDiv.className = 'answer wrong';
+          }
+        });
+        document.getElementById(
+          'score'
+        ).innerHTML = `<h3>Skor: ${score} / ${quizData.length}</h3>`;
+      }
+    </script>
+  </body>
+</html>

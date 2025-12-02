@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <title>JS Quiz: Beginner → Middle → Expert</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+      }
+      h2 {
+        margin-top: 30px;
+      }
+      .question {
+        margin-bottom: 15px;
+      }
+      .answer {
+        margin-top: 5px;
+      }
+      .correct {
+        color: green;
+      }
+      .wrong {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>JavaScript Quiz Interaktif</h1>
+
+    <div id="quiz"></div>
+    <button onclick="checkAnswers()">Submit</button>
+    <div id="score"></div>
+
+    <script>
+      // ================== DATA QUIZ ==================
+      const quizData = [
+        // ====== LEVEL BEGINNER (10 soal) ======
+        {
+          level: 'Beginner',
+          question: `1. Apa output? console.log(5 == "5");`,
+          answer: 'true',
+          explanation:
+            '== melakukan type coercion, jadi string "5" dikonversi ke number 5.',
+        },
+        {
+          level: 'Beginner',
+          question: `2. Apa output? console.log(5 === "5");`,
+          answer: 'false',
+          explanation:
+            '=== tidak melakukan type coercion, 5 (number) !== "5" (string).',
+        },
+        {
+          level: 'Beginner',
+          question: `3. Apa output? console.log(true && false);`,
+          answer: 'false',
+          explanation: 'Operator && hanya true jika kedua operand true.',
+        },
+        {
+          level: 'Beginner',
+          question: `4. Apa output? console.log("Hello" || "World");`,
+          answer: 'Hello',
+          explanation: 'Operator || mengembalikan operand pertama yang truthy.',
+        },
+        {
+          level: 'Beginner',
+          question: `5. Apa output? let x = 10; console.log(x > 5 ? "Besar" : "Kecil");`,
+          answer: 'Besar',
+          explanation: '10 > 5 → true → hasil "Besar"',
+        },
+        {
+          level: 'Beginner',
+          question: `6. Apa output? if(0){console.log("YES");} else {console.log("NO");}`,
+          answer: 'NO',
+          explanation: '0 adalah falsy → masuk ke else.',
+        },
+        {
+          level: 'Beginner',
+          question: `7. Apa output? switch(2){case 1: console.log("One"); break; case 2: console.log("Two"); break;}`,
+          answer: 'Two',
+          explanation: 'case 2 cocok → cetak "Two"',
+        },
+        {
+          level: 'Beginner',
+          question: `8. Apa output? console.log(null == undefined);`,
+          answer: 'true',
+          explanation: '== membandingkan null dan undefined sebagai sama.',
+        },
+        {
+          level: 'Beginner',
+          question: `9. Apa output? console.log(null === undefined);`,
+          answer: 'false',
+          explanation: '=== tidak melakukan coercion, null !== undefined',
+        },
+        {
+          level: 'Beginner',
+          question: `10. Apa output? console.log("0" == false);`,
+          answer: 'true',
+          explanation: '"0" dikonversi ke number 0 → 0 == false → true',
+        },
+
+        // ====== LEVEL MIDDLE (10 soal) ======
+        {
+          level: 'Middle',
+          question: `11. Apa output? console.log(0 || "A" && "B");`,
+          answer: 'B',
+          explanation:
+            '&& punya prioritas lebih tinggi → "A" && "B" = "B" → 0 || "B" = "B"',
+        },
+        {
+          level: 'Middle',
+          question: `12. Apa output? console.log("" && "X" || "Y");`,
+          answer: 'Y',
+          explanation: '"" && "X" = "" → "" || "Y" = "Y"',
+        },
+        {
+          level: 'Middle',
+          question: `13. Apa output? let a = 5; if(a > 3 && a < 10){console.log("OK");}`,
+          answer: 'OK',
+          explanation: '5 > 3 && 5 < 10 → true → cetak "OK"',
+        },
+        {
+          level: 'Middle',
+          question: `14. Apa output? console.log(true ? false ? "A":"B" : "C");`,
+          answer: 'B',
+          explanation: 'Nested ternary: true → false ? "A":"B" → hasil "B"',
+        },
+        {
+          level: 'Middle',
+          question: `15. Apa output? switch("a"){case "b": console.log("B"); break; default: console.log("Default");}`,
+          answer: 'Default',
+          explanation: '"a" tidak cocok → masuk default',
+        },
+        {
+          level: 'Middle',
+          question: `16. Apa output? console.log([] == 0);`,
+          answer: 'true',
+          explanation: '[] dikonversi ke "" → "" → 0 → 0 == 0 → true',
+        },
+        {
+          level: 'Middle',
+          question: `17. Apa output? console.log([] === 0);`,
+          answer: 'false',
+          explanation: '[] (object) !== 0 (number)',
+        },
+        {
+          level: 'Middle',
+          question: `18. Apa output? console.log("5" - 2);`,
+          answer: '3',
+          explanation: '"5" dikonversi ke number → 5-2=3',
+        },
+        {
+          level: 'Middle',
+          question: `19. Apa output? console.log("5" + 2);`,
+          answer: '52',
+          explanation: 'Operator + dengan string → concatenation',
+        },
+        {
+          level: 'Middle',
+          question: `20. Apa output? console.log(true + true + "2");`,
+          answer: '22',
+          explanation: 'true=1, 1+1=2, 2+"2"="22"',
+        },
+
+        // ====== LEVEL EXPERT (50 soal) ======
+        // Contoh beberapa soal Expert, bisa ditambah sampai 50 seperti di template sebelumnya
+        {
+          level: 'Expert',
+          question: `21. Apa output? console.log([] == ![]);`,
+          answer: 'true',
+          explanation:
+            '[] dikonversi ke boolean -> true, ![] -> false, [] == false → true karena coercion',
+        },
+        {
+          level: 'Expert',
+          question: `22. Apa output? console.log(null + 1);`,
+          answer: '1',
+          explanation: 'null → 0 saat operasi matematika',
+        },
+        {
+          level: 'Expert',
+          question: `23. Apa output? console.log("5" - 3);`,
+          answer: '2',
+          explanation: '"5" → number 5 → 5-3=2',
+        },
+        {
+          level: 'Expert',
+          question: `24. Apa output? console.log("5" + 3);`,
+          answer: '53',
+          explanation: 'String + number → concatenation',
+        },
+        // Tambahkan sampai 50 soal Expert
+      ];
+
+      // ================== RENDER QUIZ ==================
+      const quizContainer = document.getElementById('quiz');
+
+      let questionNumber = 1;
+      quizData.forEach((q) => {
+        const div = document.createElement('div');
+        div.classList.add('question');
+        div.innerHTML = `
+    <h2>${q.level} - Question ${questionNumber}</h2>
+    <div><b>${q.question}</b></div>
+    <input type="text" id="ans${
+      questionNumber - 1
+    }" placeholder="Jawabanmu di sini">
+    <div class="answer" id="exp${questionNumber - 1}"></div>
+  `;
+        quizContainer.appendChild(div);
+        questionNumber++;
+      });
+
+      // ================== CHECK ANSWERS ==================
+      function checkAnswers() {
+        let score = 0;
+        quizData.forEach((q, i) => {
+          const userAnswer = document.getElementById(`ans${i}`).value.trim();
+          const expDiv = document.getElementById(`exp${i}`);
+          if (userAnswer.toLowerCase() === q.answer.toLowerCase()) {
+            score++;
+            expDiv.innerHTML = `✅ Benar! Penjelasan: ${q.explanation}`;
+            expDiv.className = 'answer correct';
+          } else {
+            expDiv.innerHTML = `❌ Salah! Jawaban: ${q.answer}. Penjelasan: ${q.explanation}`;
+            expDiv.className = 'answer wrong';
+          }
+        });
+        document.getElementById(
+          'score'
+        ).innerHTML = `<h3>Skor: ${score} / ${quizData.length}</h3>`;
+      }
+    </script>
+  </body>
+</html>
