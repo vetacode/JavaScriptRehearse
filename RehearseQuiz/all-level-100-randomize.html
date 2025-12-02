@@ -2,20 +2,55 @@
 <html lang="id">
   <head>
     <meta charset="UTF-8" />
-    <title>JS Quiz Random 30 Soal</title>
+    <title>JS Quiz All Level</title>
     <style>
+      /* ===== RESET & BODY ===== */
+      * {
+        box-sizing: border-box;
+      }
       body {
         font-family: Arial, sans-serif;
-        padding: 20px;
+        padding: 2%;
+        background-color: whitesmoke;
+        margin: 0;
+      }
+
+      /* ===== HEADINGS ===== */
+      h1 {
+        color: goldenrod;
+        font-size: clamp(1.5rem, 4vw, 2.5rem);
+        text-align: center;
+        margin-bottom: 20px;
       }
       h2 {
-        margin-top: 20px;
+        margin-top: 10px;
+        font-size: clamp(1rem, 2.5vw, 1.2rem);
       }
+
+      /* ===== QUIZ CONTAINER ===== */
       .question {
         margin-bottom: 15px;
+        padding: 8px;
+        border-radius: 5px;
+        background-color: white;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
       }
+
+      /* ===== LEVEL COLOR ===== */
+      .Beginner {
+        background-color: #e0f7e0;
+      }
+      .Middle {
+        background-color: #fff8e1;
+      }
+      .Advanced {
+        background-color: #ffe0e0;
+      }
+
+      /* ===== ANSWERS ===== */
       .answer {
         margin-top: 5px;
+        font-size: clamp(0.9rem, 2vw, 1rem);
       }
       .correct {
         color: green;
@@ -23,29 +58,66 @@
       .wrong {
         color: red;
       }
-      .Beginner {
-        background-color: #e0f7e0;
-        padding: 5px;
+
+      /* ===== INPUT ===== */
+      input[type='text'] {
+        width: 100%;
+        max-width: 500px;
+        padding: 0.6em;
+        margin-top: 5px;
+        border-radius: 7px;
+        font-size: clamp(0.9rem, 2vw, 1rem);
       }
-      .Middle {
-        background-color: #fff8e1;
-        padding: 5px;
+
+      /* ===== BUTTON ===== */
+      button {
+        display: block;
+        padding: 0.8em 2em;
+        font-size: clamp(1rem, 2.5vw, 1.2rem);
+        margin: 20px auto;
+        cursor: pointer;
+        border-radius: 10px;
+        border: none;
+        background-color: goldenrod;
+        color: white;
+        transition: background-color 0.3s;
       }
-      .Advanced {
-        background-color: #ffe0e0;
-        padding: 5px;
+      button:hover {
+        background-color: greenyellow;
+        color: black;
+      }
+
+      /* ===== SCORE ===== */
+      #score {
+        margin-top: 20px;
+        font-size: clamp(1rem, 3vw, 1.5rem);
+        text-align: center;
+      }
+
+      /* ===== MEDIA QUERIES ===== */
+      @media (max-width: 600px) {
+        h1 {
+          font-size: 1.8rem;
+        }
+        h2 {
+          font-size: 1rem;
+        }
+        button {
+          width: 90%;
+          padding: 0.8em;
+          font-size: 1rem;
+        }
       }
     </style>
   </head>
   <body>
-    <h1>JavaScript Quiz Interaktif - Random 30 Soal</h1>
-
+    <h1>JavaScript Quiz Interaktif All Level - 30 Soal</h1>
     <div id="quiz"></div>
     <button onclick="checkAnswers()">Submit</button>
     <div id="score"></div>
 
     <script>
-      // ====== DATA QUIZ CONTOH ======
+      // ====== DATA QUIZ 100 SOAL ======
       const allQuizData = [
         // ===== BEGINNER 35 SOAL =====
         {
@@ -654,7 +726,7 @@
         },
       ];
 
-      // ====== RANDOM FUNCTION ======
+      // ====== RANDOM UTILITY ======
       function getRandomItems(arr, n) {
         const copy = [...arr];
         const result = [];
@@ -666,7 +738,7 @@
         return result;
       }
 
-      // ====== PILIH 30 SOAL RANDOM PROPORSI ======
+      // ====== AMBIL 30 SOAL RANDOM DENGAN PROPORSI LEVEL ======
       const beginnerPool = allQuizData.filter((q) => q.level === 'Beginner');
       const middlePool = allQuizData.filter((q) => q.level === 'Middle');
       const advancedPool = allQuizData.filter((q) => q.level === 'Advanced');
@@ -678,21 +750,21 @@
       let quizData = [...randomBeginner, ...randomMiddle, ...randomAdvanced];
       quizData = getRandomItems(quizData, quizData.length); // acak urutan
 
-      // ====== RENDER QUIZ ======
+      // ====== RENDER QUIZ DENGAN NOMOR URUT 1-30 ======
       const quizContainer = document.getElementById('quiz');
       quizData.forEach((q, i) => {
         const div = document.createElement('div');
         div.classList.add('question', q.level);
         div.innerHTML = `
-        <h2>${q.level}</h2>
-        <div><b>${q.question}</b></div>
-        <input type="text" id="ans${i}" placeholder="Jawabanmu di sini">
-        <div class="answer" id="exp${i}"></div>
-      `;
+          <h2>${i + 1}. ${q.level}</h2>
+          <div><b>${q.question}</b></div>
+          <input type="text" id="ans${i}" placeholder="Jawabanmu di sini">
+          <div class="answer" id="exp${i}"></div>
+        `;
         quizContainer.appendChild(div);
       });
 
-      // ====== CHECK ANSWERS ======
+      // ====== CEK JAWABAN ======
       function checkAnswers() {
         let score = 0;
         quizData.forEach((q, i) => {
@@ -707,9 +779,10 @@
             expDiv.className = 'answer wrong';
           }
         });
-        document.getElementById(
-          'score'
-        ).innerHTML = `<h3>Skor: ${score} / ${quizData.length}</h3>`;
+        document.getElementById('score').innerHTML = `<h3>Benar: ${score} / ${
+          quizData.length
+        }</h3>
+        <h1>Score: ${((score / quizData.length) * 100).toFixed(0)}</h1>`;
       }
     </script>
   </body>
