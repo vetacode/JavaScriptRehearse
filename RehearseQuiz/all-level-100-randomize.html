@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <title>JS Quiz Random 30 Soal</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+      }
+      h2 {
+        margin-top: 20px;
+      }
+      .question {
+        margin-bottom: 15px;
+      }
+      .answer {
+        margin-top: 5px;
+      }
+      .correct {
+        color: green;
+      }
+      .wrong {
+        color: red;
+      }
+      .Beginner {
+        background-color: #e0f7e0;
+        padding: 5px;
+      }
+      .Middle {
+        background-color: #fff8e1;
+        padding: 5px;
+      }
+      .Advanced {
+        background-color: #ffe0e0;
+        padding: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>JavaScript Quiz Interaktif - Random 30 Soal</h1>
+
+    <div id="quiz"></div>
+    <button onclick="checkAnswers()">Submit</button>
+    <div id="score"></div>
+
+    <script>
+      // ====== DATA QUIZ CONTOH ======
+      const allQuizData = [
+        // ===== BEGINNER 35 SOAL =====
+        {
+          level: 'Beginner',
+          question: `console.log(5 == "5");`,
+          answer: 'true',
+          explanation: '== melakukan coercion → 5 == 5 → true',
+        },
+        {
+          level: 'Beginner',
+          question: `console.log(5 === "5");`,
+          answer: 'false',
+          explanation: '=== tidak coercion → number !== string',
+        },
+        {
+          level: 'Beginner',
+          question: `console.log(true && false);`,
+          answer: 'false',
+          explanation: '&& hanya true jika kedua operand true',
+        },
+        {
+          level: 'Beginner',
+          question: `console.log("Hello" || "World");`,
+          answer: 'Hello',
+          explanation: '|| mengembalikan operand pertama yang truthy',
+        },
+        {
+          level: 'Beginner',
+          question: `let x=10; console.log(x>5?"Besar":"Kecil");`,
+          answer: 'Besar',
+          explanation: '10>5 → true → "Besar"',
+        },
+        {
+          level: 'Beginner',
+          question: `if(0){console.log("YES");} else {console.log("NO");}`,
+          answer: 'NO',
+          explanation: '0 adalah falsy → masuk else',
+        },
+        {
+          level: 'Beginner',
+          question: `switch(2){case 1: console.log("One"); break; case 2: console.log("Two"); break;}`,
+          answer: 'Two',
+          explanation: 'case 2 cocok → cetak "Two"',
+        },
+        {
+          level: 'Beginner',
+          question: `console.log(null == undefined);`,
+          answer: 'true',
+          explanation: '== membandingkan null & undefined sebagai sama',
+        },
+        {
+          level: 'Beginner',
+          question: `console.log(null === undefined);`,
+          answer: 'false',
+          explanation: '=== tidak coercion → false',
+        },
+        {
+          level: 'Beginner',
+          question: `console.log("0" == false);`,
+          answer: 'true',
+          explanation: '"0" → number 0 → 0 == false → true',
+        },
+        {
+          level: 'Beginner',
+          question: `console.log("0" === false);`,
+          answer: 'false',
+          explanation: '=== tidak coercion → string !== boolean',
+        },
+        {
+          level: 'Beginner',
+          question: `console.log(1 == true);`,
+          answer: 'true',
+          explanation: '1 == true karena true → 1',
+        },
+        {
+          level: 'Beginner',
+          question: `console.log(1 === true);`,
+          answer: 'false',
+          explanation: '=== tidak coercion → number !== boolean',
+        },
+        {
+          level: 'Beginner',
+          question: `console.log([] == 0);`,
+          answer: 'true',
+          explanation: '[] → "" → 0 → 0==0 → true',
+        },
+        {
+          level: 'Beginner',
+          question: `console.log([] === 0);`,
+          answer: 'false',
+          explanation: '[] object !== 0 number',
+        },
+        {
+          level: 'Beginner',
+          question: `console.log(true && true && false);`,
+          answer: 'false',
+          explanation: '&& stop pada false pertama',
+        },
+        {
+          level: 'Beginner',
+          question: `console.log("A" && "B");`,
+          answer: 'B',
+          explanation: '&& return operand terakhir jika semua truthy',
+        },
+        {
+          level: 'Beginner',
+          question: `console.log("A" && "" && "B");`,
+          answer: '',
+          explanation: '"" → falsy → return ""',
+        },
+        {
+          level: 'Beginner',
+          question: `console.log(0 && "Test");`,
+          answer: '0',
+          explanation: '0 → falsy → return 0',
+        },
+        {
+          level: 'Beginner',
+          question: `let a=7; console.log(a>3 && a<10);`,
+          answer: 'true',
+          explanation: '7>3 && 7<10 → true',
+        },
+        {
+          level: 'Beginner',
+          question: `console.log(null && "Hello");`,
+          answer: 'null',
+          explanation: 'null → falsy → return null',
+        },
+        {
+          level: 'Beginner',
+          question: `console.log(true && true && false && true);`,
+          answer: 'false',
+          explanation: '&& stop pada false pertama',
+        },
+        {
+          level: 'Beginner',
+          question: `console.log([] && "OK");`,
+          answer: 'OK',
+          explanation: '[] → truthy → return "OK"',
+        },
+        {
+          level: 'Beginner',
+          question: `console.log(false || true);`,
+          answer: 'true',
+          explanation: '|| stop pada operand pertama truthy',
+        },
+        {
+          level: 'Beginner',
+          question: `console.log("" || "ABC");`,
+          answer: 'ABC',
+          explanation: '"" → falsy → next "ABC"',
+        },
+        {
+          level: 'Beginner',
+          question: `console.log(null || undefined || "Finish");`,
+          answer: 'Finish',
+          explanation: 'null dan undefined → falsy → "Finish"',
+        },
+        {
+          level: 'Beginner',
+          question: `console.log(0 || false || "");`,
+          answer: '',
+          explanation: 'semua falsy → return terakhir → ""',
+        },
+        {
+          level: 'Beginner',
+          question: `console.log(123 || "Test");`,
+          answer: '123',
+          explanation: '123 → truthy → return 123',
+        },
+        {
+          level: 'Beginner',
+          question: `console.log(undefined || 0 || 5 || null);`,
+          answer: '5',
+          explanation: 'return first truthy → 5',
+        },
+        {
+          level: 'Beginner',
+          question: `console.log("X" || [] || {});`,
+          answer: 'X',
+          explanation: 'X → truthy → return X',
+        },
+        {
+          level: 'Beginner',
+          question: `let x=10; console.log(x>5?"Besar":"Kecil");`,
+          answer: 'Besar',
+          explanation: '10>5 → true → "Besar"',
+        },
+        {
+          level: 'Beginner',
+          question: `console.log(null ? 1 : 2);`,
+          answer: '2',
+          explanation: 'null → falsy → ternary return 2',
+        },
+        {
+          level: 'Beginner',
+          question: `if(false) console.log("A"); else if(false) console.log("B"); else console.log("C");`,
+          answer: 'C',
+          explanation: 'semua false → masuk else',
+        },
+        {
+          level: 'Beginner',
+          question: `let n=null; if(n==null) console.log("NULL"); else console.log("NOT");`,
+          answer: 'NULL',
+          explanation: 'n==null → true',
+        },
+        {
+          level: 'Beginner',
+          question: `switch(0){case false: console.log("F"); break; case 0: console.log("Z"); break;}`,
+          answer: 'Z',
+          explanation: 'switch strict equality → 0===0 → Z',
+        },
+
+        // ===== MIDDLE 35 SOAL =====
+        {
+          level: 'Middle',
+          question: `console.log(0||"A"&&"B");`,
+          answer: 'B',
+          explanation: '&& lebih tinggi prioritas → "A"&&"B"="B" →0||"B"="B"',
+        },
+        {
+          level: 'Middle',
+          question: `console.log(""&&"X"||"Y");`,
+          answer: 'Y',
+          explanation: '""&&"X"="" → ""||"Y"="Y"',
+        },
+        {
+          level: 'Middle',
+          question: `let a=5; if(a>3&&a<10){console.log("OK");}`,
+          answer: 'OK',
+          explanation: '5>3 && 5<10 → true → cetak OK',
+        },
+        {
+          level: 'Middle',
+          question: `console.log(true?false?"A":"B":"C");`,
+          answer: 'B',
+          explanation: 'Nested ternary → true → false?"A":"B" → B',
+        },
+        {
+          level: 'Middle',
+          question: `switch("a"){case "b":console.log("B");break;default:console.log("Default");}`,
+          answer: 'Default',
+          explanation: 'Tidak cocok → default',
+        },
+        {
+          level: 'Middle',
+          question: `console.log([]==0);`,
+          answer: 'true',
+          explanation: '[] → "" → 0 → 0==0 → true',
+        },
+        {
+          level: 'Middle',
+          question: `console.log([]===0);`,
+          answer: 'false',
+          explanation: '[] object !== 0 number',
+        },
+        {
+          level: 'Middle',
+          question: `console.log("5"-2);`,
+          answer: '3',
+          explanation: '"5" → number → 5-2=3',
+        },
+        {
+          level: 'Middle',
+          question: `console.log("5"+2);`,
+          answer: '52',
+          explanation: 'String + number → concatenation',
+        },
+        {
+          level: 'Middle',
+          question: `console.log(true+true+"2");`,
+          answer: '22',
+          explanation: 'true=1 →1+1=2 → 2+"2"="22"',
+        },
+        {
+          level: 'Middle',
+          question: `console.log([]==![]);`,
+          answer: 'true',
+          explanation: '[]→true, ![]→false → []==false → true',
+        },
+        {
+          level: 'Middle',
+          question: `console.log(NaN===NaN);`,
+          answer: 'false',
+          explanation: 'NaN tidak sama dengan NaN',
+        },
+        {
+          level: 'Middle',
+          question: `console.log({}+[]);`,
+          answer: '[object Object]',
+          explanation: '{}→"[object Object]" + []="" → "[object Object]"',
+        },
+        {
+          level: 'Middle',
+          question: `console.log([]+{});`,
+          answer: '[object Object]',
+          explanation: '[]->"" + {}="[object Object]"',
+        },
+        {
+          level: 'Middle',
+          question: `console.log({}+{});`,
+          answer: '[object Object][object Object]',
+          explanation: 'Dua object dikonversi string → digabung',
+        },
+        {
+          level: 'Middle',
+          question: `console.log("true"==true);`,
+          answer: 'false',
+          explanation: '"true" string → number NaN, true → 1 → NaN==1=false',
+        },
+        {
+          level: 'Middle',
+          question: `console.log(false==0);`,
+          answer: 'true',
+          explanation: 'false→0 →0==0 true',
+        },
+        {
+          level: 'Middle',
+          question: `console.log(false===0);`,
+          answer: 'false',
+          explanation: 'false boolean !== 0 number',
+        },
+        {
+          level: 'Middle',
+          question: `console.log([]==false);`,
+          answer: 'true',
+          explanation: '[] → "" → 0 → 0==false → true',
+        },
+        {
+          level: 'Middle',
+          question: `console.log(![]);`,
+          answer: 'false',
+          explanation: '[] → truthy → ! → false',
+        },
+        {
+          level: 'Middle',
+          question: `console.log([]==[]);`,
+          answer: 'false',
+          explanation: 'Dua object berbeda referensi → false',
+        },
+        {
+          level: 'Middle',
+          question: `console.log({}=={});`,
+          answer: 'false',
+          explanation: 'Dua object berbeda referensi → false',
+        },
+        {
+          level: 'Middle',
+          question: `console.log([]+[]);`,
+          answer: '',
+          explanation: '[]->"" + []=""',
+        },
+        {
+          level: 'Middle',
+          question: `console.log([]+false);`,
+          answer: 'false',
+          explanation: '[]->"" → "" + "false"="false"',
+        },
+        {
+          level: 'Middle',
+          question: `console.log([]+null);`,
+          answer: 'null',
+          explanation: '[]->"" → ""+"null"="null"',
+        },
+        {
+          level: 'Middle',
+          question: `console.log([1]+[2]);`,
+          answer: '12',
+          explanation: '[1]->"1", [2]->"2" → "1"+"2"="12"',
+        },
+        {
+          level: 'Middle',
+          question: `console.log([1,2]+[3,4]);`,
+          answer: '1,23,4',
+          explanation: 'Arrays dikonversi ke string, lalu concatenation',
+        },
+        {
+          level: 'Middle',
+          question: `console.log({a:1}+{b:2});`,
+          answer: '[object Object][object Object]',
+          explanation: 'Object dikonversi string → digabung',
+        },
+        {
+          level: 'Middle',
+          question: `console.log(0&&"A"||"B");`,
+          answer: 'B',
+          explanation: '0 && "A"=0 → 0||"B"="B"',
+        },
+        {
+          level: 'Middle',
+          question: `console.log("A"&&"B"||"C");`,
+          answer: 'B',
+          explanation: '"A"&&"B"="B" → "B"||"C"="B"',
+        },
+        {
+          level: 'Middle',
+          question: `console.log(true?false?"A":"B":"C");`,
+          answer: 'B',
+          explanation: 'Nested ternary',
+        },
+        {
+          level: 'Middle',
+          question: `console.log(false? "X": true?"Y":"Z");`,
+          answer: 'Y',
+          explanation: 'Nested ternary',
+        },
+        {
+          level: 'Middle',
+          question: `console.log(!!"false");`,
+          answer: 'true',
+          explanation: 'Non-empty string → truthy → !! → true',
+        },
+        {
+          level: 'Middle',
+          question: `console.log(!!"");`,
+          answer: 'false',
+          explanation: 'Empty string → falsy → !! → false',
+        },
+        {
+          level: 'Middle',
+          question: `console.log(!undefined);`,
+          answer: 'true',
+          explanation: 'undefined → falsy → ! → true',
+        },
+
+        // ===== ADVANCED 30 SOAL =====
+        {
+          level: 'Advanced',
+          question: `console.log(!null);`,
+          answer: 'true',
+          explanation: 'null → falsy → ! → true',
+        },
+        {
+          level: 'Advanced',
+          question: `console.log([]==![]);`,
+          answer: 'true',
+          explanation: '[]→true, ![]→false → []==false → true',
+        },
+        {
+          level: 'Advanced',
+          question: `console.log(0||0||0||1);`,
+          answer: '1',
+          explanation: '|| return first truthy',
+        },
+        {
+          level: 'Advanced',
+          question: `console.log(0&&1&&2);`,
+          answer: '0',
+          explanation: '&& return first falsy',
+        },
+        {
+          level: 'Advanced',
+          question: `console.log(true&&true&&false&&true);`,
+          answer: 'false',
+          explanation: '&& stop pada false pertama',
+        },
+        {
+          level: 'Advanced',
+          question: `console.log("A"||"B"||"C");`,
+          answer: 'A',
+          explanation: '|| stop pada truthy pertama',
+        },
+        {
+          level: 'Advanced',
+          question: `console.log("A"&&"B"&&"C");`,
+          answer: 'C',
+          explanation: '&& return last truthy jika semua truthy',
+        },
+        {
+          level: 'Advanced',
+          question: `console.log(!!0);`,
+          answer: 'false',
+          explanation: '0 → falsy → !! → false',
+        },
+        {
+          level: 'Advanced',
+          question: `console.log(!!1);`,
+          answer: 'true',
+          explanation: '1 → truthy → !! → true',
+        },
+        {
+          level: 'Advanced',
+          question: `console.log("5"=="5");`,
+          answer: 'true',
+          explanation: '== → coercion → true',
+        },
+        {
+          level: 'Advanced',
+          question: `console.log("5"==="5");`,
+          answer: 'true',
+          explanation: '==="5"==="5" → true',
+        },
+        {
+          level: 'Advanced',
+          question: `console.log([1]==1);`,
+          answer: 'true',
+          explanation: '[1] → "1" → 1 → 1==1 → true',
+        },
+        {
+          level: 'Advanced',
+          question: `console.log([1]==[1]);`,
+          answer: 'false',
+          explanation: 'Dua array berbeda referensi',
+        },
+        {
+          level: 'Advanced',
+          question: `console.log({}=={});`,
+          answer: 'false',
+          explanation: 'Dua object berbeda referensi',
+        },
+        {
+          level: 'Advanced',
+          question: `console.log([]+[]);`,
+          answer: '',
+          explanation: '[] → "" → "" + ""=""',
+        },
+        {
+          level: 'Advanced',
+          question: `console.log([]+false);`,
+          answer: 'false',
+          explanation: '[]→"" + "false"="false"',
+        },
+        {
+          level: 'Advanced',
+          question: `console.log([]+null);`,
+          answer: 'null',
+          explanation: '[]→"" + "null"="null"',
+        },
+        {
+          level: 'Advanced',
+          question: `console.log([1]+[2]);`,
+          answer: '12',
+          explanation: 'Arrays → string → concatenation',
+        },
+        {
+          level: 'Advanced',
+          question: `console.log([1,2]+[3,4]);`,
+          answer: '1,23,4',
+          explanation: 'Arrays → string → concatenation',
+        },
+        {
+          level: 'Advanced',
+          question: `console.log({a:1}+{b:2});`,
+          answer: '[object Object][object Object]',
+          explanation: 'Objects → string → concatenation',
+        },
+        {
+          level: 'Advanced',
+          question: `console.log(0||1&&2);`,
+          answer: '2',
+          explanation: '&& prioritas lebih tinggi → 1&&2=2 → 0||2=2',
+        },
+        {
+          level: 'Advanced',
+          question: `console.log(0&&1||2);`,
+          answer: '2',
+          explanation: '0&&1=0 → 0||2=2',
+        },
+        {
+          level: 'Advanced',
+          question: `console.log(true||false&&false);`,
+          answer: 'true',
+          explanation: '&& → false && false = false → true||false = true',
+        },
+        {
+          level: 'Advanced',
+          question: `console.log((true||false)&&false);`,
+          answer: 'false',
+          explanation: 'true||false=true → true && false = false',
+        },
+        {
+          level: 'Advanced',
+          question: `console.log(!""&&"A");`,
+          answer: 'A',
+          explanation: '"" → falsy → !""=true → true && "A"="A"',
+        },
+        {
+          level: 'Advanced',
+          question: `console.log(!0||"B");`,
+          answer: 'true',
+          explanation: '!0=true → true||"B"=true',
+        },
+        {
+          level: 'Advanced',
+          question: `console.log(!!null||"C");`,
+          answer: 'C',
+          explanation: '!!null=false → false||"C"="C"',
+        },
+        {
+          level: 'Advanced',
+          question: `console.log(!!"Hello"&&"D");`,
+          answer: 'D',
+          explanation: '!!"Hello"=true → true && "D"="D"',
+        },
+        {
+          level: 'Advanced',
+          question: `console.log(""||0||false||"E");`,
+          answer: 'E',
+          explanation: 'return first truthy → "E"',
+        },
+        {
+          level: 'Advanced',
+          question: `console.log(null||undefined||0||""||"F");`,
+          answer: 'F',
+          explanation: 'return first truthy → "F"',
+        },
+      ];
+
+      // ====== RANDOM FUNCTION ======
+      function getRandomItems(arr, n) {
+        const copy = [...arr];
+        const result = [];
+        for (let i = 0; i < n; i++) {
+          if (copy.length === 0) break;
+          const idx = Math.floor(Math.random() * copy.length);
+          result.push(copy.splice(idx, 1)[0]);
+        }
+        return result;
+      }
+
+      // ====== PILIH 30 SOAL RANDOM PROPORSI ======
+      const beginnerPool = allQuizData.filter((q) => q.level === 'Beginner');
+      const middlePool = allQuizData.filter((q) => q.level === 'Middle');
+      const advancedPool = allQuizData.filter((q) => q.level === 'Advanced');
+
+      const randomBeginner = getRandomItems(beginnerPool, 12);
+      const randomMiddle = getRandomItems(middlePool, 12);
+      const randomAdvanced = getRandomItems(advancedPool, 6);
+
+      let quizData = [...randomBeginner, ...randomMiddle, ...randomAdvanced];
+      quizData = getRandomItems(quizData, quizData.length); // acak urutan
+
+      // ====== RENDER QUIZ ======
+      const quizContainer = document.getElementById('quiz');
+      quizData.forEach((q, i) => {
+        const div = document.createElement('div');
+        div.classList.add('question', q.level);
+        div.innerHTML = `
+        <h2>${q.level}</h2>
+        <div><b>${q.question}</b></div>
+        <input type="text" id="ans${i}" placeholder="Jawabanmu di sini">
+        <div class="answer" id="exp${i}"></div>
+      `;
+        quizContainer.appendChild(div);
+      });
+
+      // ====== CHECK ANSWERS ======
+      function checkAnswers() {
+        let score = 0;
+        quizData.forEach((q, i) => {
+          const userAnswer = document.getElementById(`ans${i}`).value.trim();
+          const expDiv = document.getElementById(`exp${i}`);
+          if (userAnswer.toLowerCase() === q.answer.toLowerCase()) {
+            score++;
+            expDiv.innerHTML = `✅ Benar! Penjelasan: ${q.explanation}`;
+            expDiv.className = 'answer correct';
+          } else {
+            expDiv.innerHTML = `❌ Salah! Jawaban: ${q.answer}. Penjelasan: ${q.explanation}`;
+            expDiv.className = 'answer wrong';
+          }
+        });
+        document.getElementById(
+          'score'
+        ).innerHTML = `<h3>Skor: ${score} / ${quizData.length}</h3>`;
+      }
+    </script>
+  </body>
+</html>
